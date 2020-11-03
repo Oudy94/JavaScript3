@@ -17,7 +17,7 @@ const getAnonName = function(firstName) {
 }
 
 
-getAnonName()
+getAnonName("John")
     .then(function(fulfilled) {
         console.log(fulfilled);
     })

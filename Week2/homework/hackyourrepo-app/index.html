@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack Your Repo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <section id="app-header">
+            <h1>HYF Repositories...</h1>
+            <select name="Repo List" id="app-header-list">
+              <option class="select-selected" id="app-header-list-select" value="select-repo">Select a repository</option>
+            </select>
+        </section>
+
+        <section id="app-container">
+
+            <div id="app-container-repo">
+                <h2>Information</h2>
+
+                <div id="app-container-repo-box">
+
+                    <table>
+                        <tr>
+                          <th><h3>Name:</h3></th>
+                          <td><h4 id="app-container-repo-box-name"></h4></td>
+                        </tr>
+                        <tr>
+                          <th><h3>Description:</h3></th>
+                          <td><h4 id="app-container-repo-box-description"></h4></td>
+                        </tr>
+                        <tr>
+                            <th><h3>Forks:</h3></th>
+                            <td><h4 id="app-container-repo-box-forks"></h4></td>
+                        </tr>
+                        <tr>
+                            <th><h3>Updated:</h3></th>
+                            <td><h4 id="app-container-repo-box-updated"></h4></td>
+                        </tr>
+                      </table>
+
+                </div>
+            </div>
+
+            <div id="app-container-contributors">
+
+                <h2>Contributors</h2>
+
+                <div id="app-container-contributors-box">
+
+                </div>
+            </div>
+
+            <div id="app-container-failed">
+
+                
+            </div>
+
+        </section>
+
+        <section id="app-footer">
+
+            <h6>By Saoud Salem Ba-khmais</h6>
+
+        </section>
+
+
+
+
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!-- import axios library -->
+    <script src="script.js"></script>
+</body>
+</html>

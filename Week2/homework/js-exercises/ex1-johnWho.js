@@ -1,7 +1,7 @@
 "use strict";
 
-const getAnonName = function(firstName) {
-    const promising = new Promise(function(resolve, reject) {
+const getAnonName = firstName => {
+    const promising = new Promise((resolve, reject) => {
 
         setTimeout(() => {
             if (!firstName)
@@ -17,10 +17,10 @@ const getAnonName = function(firstName) {
 }
 
 
-getAnonName("John")
-    .then(function(fulfilled) {
+getAnonName('John')
+    .then(fulfilled => {
         console.log(fulfilled);
     })
-    .catch(function(error) {
+    .catch(error => {
         console.log(error.message);
     })

@@ -1,80 +1,75 @@
 "use strict";
 
-const pokemonList = document.getElementById("app-list");
+function fetchData(url){
 
-function fetchData(pokemonID){
-
-    let url;
-
-    if (pokemonID <= 0)
-        url = "https://pokeapi.co/api/v2/pokemon?limit=105"; //fetch pokemons names
-    else
-        url = `https://pokeapi.co/api/v2/pokemon/${pokemonID}`; //fetch specific pokemon image
-
-    const fetching = fetch(url)
-    .then(response => {
-        return response.json();
-    })
-    .then(data => {
-        let allData = {
-            pokemonsData: data,
-            pokemonDataID: pokemonID
-        };
-        return allData;
-    })
-    .catch(error => {
-        console.log('err', error);
-    });
-
-    return fetching;
+    return fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.log('err', error);
+        });
 }
 
 function addPokemonToDOM(data){
+    //add the app
+    const app = `
+    <div id="app">
+        <h1>Pokemons</h1>
+        <select name="Pokemon List" id="app-list">
 
-    const pokemonImageArea = document.getElementById("app-image");
+        </select>
+        <div id="app-image"></div>
+    </div>
+    `;
+    document.body.innerHTML = app;
 
-    //add pokemons names only
-    if (data.pokemonDataID <= 0){
-        data.pokemonsData.results.map(pokemon => {
-            const pokemonName = document.createElement("option");
-            pokemonName.textContent = pokemon.name;
-            pokemonName.value = pokemon.name;
-            pokemonList.appendChild(pokemonName);
-        });
-    }
+    //add pokemons names
+    let pokemonName = `<option value="select-pokimon" selected disabled>Select A Pokimon!</option>`;
 
+    for (const pokemon of data.results){
+        pokemonName += `<option value="${pokemon.name}">${pokemon.name}</option>`;
+    };
+
+    const pokemonList = document.getElementById("app-list");
+    pokemonList.innerHTML = pokemonName;
+}
+
+function addPokemonImage(data){
     //add pokemon image
-    else{
-        if(pokemonImageArea.hasChildNodes()){
-            const pokemonImage = document.getElementById("app-image-pokemon");
-            const pokemonImageURL = data.pokemonsData.sprites.versions["generation-v"]["black-white"].animated.front_default;
-            pokemonImage.src = pokemonImageURL;
-        }
-        else{
-            const pokemonImage = document.createElement("img");
-            const pokemonImageURL = data.pokemonsData.sprites.versions["generation-v"]["black-white"].animated.front_default;
-            pokemonImage.src = pokemonImageURL;
-            pokemonImage.id = "app-image-pokemon";
-            pokemonImageArea.appendChild(pokemonImage);
+    const pokemonImageArea = document.getElementById("app-image");
+    const pokemonImageURL = data.sprites.versions["generation-v"]["black-white"].animated.front_default;
+    const pokemonImage = `<img src="${pokemonImageURL}">`;
 
-            const selectOption = document.getElementById("app-selected");
-            selectOption.disabled = true;
-        }
-    }
-
+    pokemonImageArea.innerHTML = pokemonImage;
 }
 
 function main(){
-
-    const pokemonID = pokemonList.selectedIndex;
-    fetchData(pokemonID)
+    fetchData("https://pokeapi.co/api/v2/pokemon?limit=105") //fetch pokemons names
     .then(addPokemonToDOM)
-    .catch(function (error) {
+    .then( ()=>{
+        const pokemonList = document.getElementById("app-list");
+        pokemonList.addEventListener("change", changePokemon);
+    })
+    .catch(error =>{
         console.log(error.message);
     });
+}
 
+function changePokemon(){
+    const pokemonList = document.getElementById("app-list");
+    const pokemonID = pokemonList.selectedIndex;
+
+    fetchData(`https://pokeapi.co/api/v2/pokemon/${pokemonID}`) //fetch pokemon image
+    .then(addPokemonImage)
+    .catch(error =>{
+        console.log(error.message);
+    });
 }
 
 window.addEventListener("load", main);
 
-pokemonList.addEventListener("change", main);
+
